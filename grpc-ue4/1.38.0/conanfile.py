@@ -5,7 +5,7 @@ class GrpcUe4Conan(ConanFile):
     name = "grpc-ue4"
     version = "1.38.0"
     license = "Apache-2.0"
-    url = "https://github.com/jaiber/ue4-conan-recipes/grpc-ue4"
+    url = "https://github.com/adamrehn/ue4-conan-recipes/grpc-ue4"
     description = "gRPC custom build for Unreal Engine 4"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
@@ -20,7 +20,7 @@ class GrpcUe4Conan(ConanFile):
         self.requires("OpenSSL/ue4@adamrehn/{}".format(self.channel))
         self.requires("zlib/ue4@adamrehn/{}".format(self.channel))
         self.requires("cares-ue4/1.16.1@{}/{}".format(self.user, self.channel))
-        self.requires("protobuf-ue4/3.12.3@{}/{}".format(self.user, self.channel))
+        self.requires("protobuf-ue4/3.17.3@{}/{}".format(self.user, self.channel))
     
     def cmake_flags(self):
         

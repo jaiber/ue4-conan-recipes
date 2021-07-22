@@ -18,32 +18,23 @@ class WebRTCUe4Conan(ConanFile):
     
     def requirements(self):
         self.requires("OpenSSL/ue4@adamrehn/{}".format(self.channel))
-        self.requires("zlib/ue4@adamrehn/{}".format(self.channel))
-        self.requires("cares-ue4/1.16.1@{}/{}".format(self.user, self.channel))
-        #self.requires("protobuf-ue4/3.17.3@{}/{}".format(self.user, self.channel))
     
     def cmake_flags(self):
         
         from ue4util import Utility
         
-        # Generate the CMake flags to use our custom dependencies
         openssl = self.deps_cpp_info["OpenSSL"]
-        zlib = self.deps_cpp_info["zlib"]
+
+            #"-DGN_EXTRA_ARGS=is_debug=false is_component_build=false is_clang=false rtc_enable_protobuf=false rtc_build_ssl=false rtc_include_tests=false rtc_use_h264=true use_rtti=true use_custom_libcxx=true treat_warnings_as_errors=false use_ozone=true rtc_ssl_root='" + openssl.rootpath + "'",
+            #"-DGN_EXTRA_ARGS=\"is_debug=false is_component_build=false rtc_enable_protobuf=false rtc_include_tests=false\"",
         return [
-            "-DGN_EXTRA_ARGS=is_debug=false is_component_build=false is_clang=false rtc_include_tests=false rtc_use_h264=true use_rtti=true use_custom_libcxx=false treat_warnings_as_errors=false use_ozone=true",
-            "-DWEBRTC_BRANCH_HEAD=refs/remotes/branch-heads/4147",
-            "-DgRPC_SSL_PROVIDER=package",
-            "-DgRPC_ZLIB_PROVIDER=package",
-            "-DOPENSSL_SYSTEM_LIBRARIES={}".format(";".join(openssl.system_libs)),
-            "-DOPENSSL_USE_STATIC_LIBS=ON",
-            "-DOPENSSL_ROOT_DIR=" + openssl.rootpath,
-            "-DZLIB_INCLUDE_DIR=" + zlib.include_paths[0],
-            "-DZLIB_LIBRARY=" + Utility.resolve_file(zlib.lib_paths[0], zlib.libs[0]),
+            "-DGN_EXTRA_ARGS=\"is_debug=false is_component_build=false rtc_enable_protobuf=false rtc_include_tests=false rtc_use_h264=true use_rtti=true treat_warnings_as_errors=false use_ozone=true\"",
+            "-DWEBRTC_BRANCH_HEAD=refs/remotes/branch-heads/4147"
         ]
     
     def source(self):
         
-        tools.untargz("/home/i2a/jj/unreal/tmp/t/libwebrtc-build.tar.gz", destination=".", pattern=None, strip_root=False)
+        tools.untargz("/home/i2a/jj/unreal/tmp/t/libwebrtc-build13.tar.gz", destination=".", pattern=None, strip_root=False)
         #self.run(" ".join([
         #    "git", "clone",
         #    "--progress",
@@ -72,6 +63,7 @@ class WebRTCUe4Conan(ConanFile):
         # Filter out any extensions when listing our exported libraries
         self.cpp_info.libs = tools.collect_libs(self)
         self.cpp_info.libs = list([lib for lib in self.cpp_info.libs if "_ext" not in lib])
+        self.cpp_info.includedirs = [os.path.join("include", "webrtc")]
         
         # Provide the necessary data so that consumers can instantiate a `ProtoCompiler` object
         self.env_info.PYTHONPATH.append(self.package_folder)
