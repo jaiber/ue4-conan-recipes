@@ -63,7 +63,7 @@ class WebRTCUe4Conan(ConanFile):
         # Filter out any extensions when listing our exported libraries
         self.cpp_info.libs = tools.collect_libs(self)
         self.cpp_info.libs = list([lib for lib in self.cpp_info.libs if "_ext" not in lib])
-        self.cpp_info.includedirs = [os.path.join("include", "webrtc")]
+        self.cpp_info.includedirs = [os.path.join("include", "webrtc"), os.path.join("include", "webrtc", "third_party", "libyuv", "include")]
         
         # Provide the necessary data so that consumers can instantiate a `ProtoCompiler` object
         self.env_info.PYTHONPATH.append(self.package_folder)
