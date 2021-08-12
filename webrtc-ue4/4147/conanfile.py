@@ -28,7 +28,7 @@ class WebRTCUe4Conan(ConanFile):
             #"-DGN_EXTRA_ARGS=is_debug=false is_component_build=false is_clang=false rtc_enable_protobuf=false rtc_build_ssl=false rtc_include_tests=false rtc_use_h264=true use_rtti=true use_custom_libcxx=true treat_warnings_as_errors=false use_ozone=true rtc_ssl_root='" + openssl.rootpath + "'",
             #"-DGN_EXTRA_ARGS=\"is_debug=false is_component_build=false rtc_enable_protobuf=false rtc_include_tests=false\"",
         return [
-            "-DGN_EXTRA_ARGS=\"is_debug=false is_component_build=false rtc_enable_protobuf=false rtc_include_tests=false rtc_use_h264=true use_rtti=true treat_warnings_as_errors=false use_ozone=true\"",
+            "-DGN_EXTRA_ARGS=\"is_debug=false is_component_build=false is_clang=true rtc_enable_protobuf=false rtc_include_tests=false rtc_use_h264=true use_rtti=true treat_warnings_as_errors=false use_ozone=true\"",
             "-DWEBRTC_BRANCH_HEAD=refs/remotes/branch-heads/4147"
         ]
     
@@ -56,6 +56,7 @@ class WebRTCUe4Conan(ConanFile):
     def package(self):
         self.copy("__init__.py")
         self.copy(pattern="*.h", src="webrtc/src/third_party/abseil-cpp/absl", dst="include/webrtc/absl")
+        self.copy(pattern="*.h", src="webrtc/src/test", dst="include/webrtc/test")
         self.copy(pattern="*.a", src="lib", dst="lib")
     
     def package_info(self):
